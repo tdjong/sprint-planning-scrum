@@ -7,6 +7,11 @@ var myNick = null;
 var myGame = null;
 var myMode = null;
 var voteValues = null;
+var roles = {
+  'dev': "Développeur",
+  'po': "ProductOwner",
+  'sm': "ScrumMaster",
+}
 
 /*******************************************************************************
  * BASIC SETUP, READY FUNCTIONS, AND THE SIGN IN FUNCTION                      *
@@ -161,9 +166,13 @@ function showCards() {
  */
 function displayClients(clients) {
   $('#clients').empty();
+  $('#others ul').empty();
   $(clients).each(function(i,e){
     // Only display them if they're playing
-    if ( e.mode ) { displayClient(e.sid, e.nickname); }
+    if ( e.mode && e.role == 'dev') { displayClient(e.sid, e.nickname); }
+    else {
+      displayOther(e.sid, e.nickname, e.role);
+    }
   });
 }
 
@@ -177,6 +186,16 @@ function displayClient(sid, nickname){
     .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
     .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
     .appendTo('#clients');
+}
+
+/**
+ * Create a vote card for a given user
+ */
+function displayOther(sid, nickname, role){
+  $('<li>'+nickname+' ('+roles[role]+')</li>')
+    .attr('id', sid)
+    .addClass('other')
+    .appendTo('#others ul');
 }
 
 /**
@@ -249,8 +268,11 @@ function voteOccured(e){
  * observing), pass it over to displayClient();
  */
 function userSignedIn(e){
-  if (e.mode) {
+  if (e.mode && e.role == 'dev') {
     displayClient(e.sid, e.nickname);
+  }
+  else {
+    displayOther(e.sid, e.nickname, e.role);
   }
 
   /**
@@ -328,7 +350,7 @@ function reconnect(){
   if (mySid === null) {
     return;
   }
-  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
+  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame, 'role': myRole};
 
   cli.send('signIn', data, function(res,msg){
     // Server returned false; alert with message and bail

@@ -28,6 +28,7 @@ var client = function(){
     evt.nickname = data.nickname;
     evt.sid = data.sid;
     evt.mode = data.mode;
+    evt.role = data.role;
     document.dispatchEvent(evt);
   });
   this.socket.on('voteOccured', function(data){
