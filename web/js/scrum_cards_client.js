@@ -77,9 +77,10 @@ $(document).ready(function(){
 function signIn(mode){
   myNick = $('#txtNickname').val();
   myGame = $('#txtGame').val();
+  myRole = $('#selRole').val();
   myMode = mode;
 
-  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
+  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame, 'role': myRole};
 
   /**
    * Handle the login action and set up local variables
@@ -89,7 +90,7 @@ function signIn(mode){
     if(!res){ alert(msg); return false; }
 
     /* Show our hand if we're a playing client, not if we're observing */
-    if (mode) {
+    if (mode && myRole == 'dev') {
       /* Create cards for each item in the Points object */
       voteValues = msg.points;
       $('.cards')
@@ -132,6 +133,9 @@ function signIn(mode){
     $('#nickname-display').text(myNick);
     $('#login, #readme').slideUp();
     $('#votingResult, #playersHand').slideDown();
+    if(myRole == 'sm') {
+      $('#votingActions').slideDown();
+    }
     setTimeout(showCards, 400);
   });
 }

@@ -45,12 +45,19 @@
 
     <section id="login" class="signin-form">
       <h2>Welcome</h2>
-      <div id="loginActions"><form>
-        <input type="text" id="txtNickname" placeholder="Nickname?" />
-        <input type="text" id="txtGame" placeholder="New Game!" />
-        <input type="submit" value="Play" id="btnSignIn" />
-        <input type="button" value="Watch" id="btnObserve" />
-      </form></div><!--/#loginActions-->
+      <div id="loginActions">
+        <form>
+          <input type="text" id="txtNickname" placeholder="Nickname?" />
+          <input type="text" id="txtGame" placeholder="New Game!" />
+          <select name="selRole" id="selRole">
+            <option value="dev">DevTeam</option>
+            <option value="po">ProductOwner</option>
+            <option value="sm">ScrumMaster</option>
+          </select>
+          <input type="submit" value="Play" id="btnSignIn" />
+          <!-- <input type="button" value="Watch" id="btnObserve" /> -->
+        </form>
+      </div><!--/#loginActions-->
     </section><!--#/login-->
 
     <section id="readme">
@@ -81,7 +88,7 @@
     </section><!--/#readme-->
 
     <section id="votingResult" style="display:none">
-      <div id="votingActions">
+      <div id="votingActions" style="display:none">
         <input type="button" id="btnReveal" value="Reveal" />
         <input type="button" id="btnReset" value="Reset" />
         <input type="button" id="btnLink" value="Game Link" />
