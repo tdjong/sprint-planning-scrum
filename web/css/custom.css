@@ -13,6 +13,11 @@ html.multiplebgs.svg #clients .client .back {
   color: #000000;
 }
 
+#clients .nickname {
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
 select {
   background: #f2f2f2;
   color: #312928;
