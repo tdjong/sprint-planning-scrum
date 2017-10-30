@@ -18,6 +18,10 @@ html.multiplebgs.svg #clients .client .back {
   letter-spacing: 1px;
 }
 
+#others {
+  color: #000000;
+}
+
 select {
   background: #f2f2f2;
   color: #312928;
