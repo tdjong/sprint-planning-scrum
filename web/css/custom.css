@@ -10,7 +10,8 @@ html.multiplebgs.svg #clients .client .back {
 }
 
 #clients .client.voted .back .nickname{
-  color: #000000;
+  color: #FF0000;
+  text-shadow: #bd2d10 1px 1px 0;
 }
 
 #clients .nickname {
