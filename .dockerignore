@@ -1,0 +1,6 @@
+# .dockerignore
+# based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
+node_modules
+npm-debug.log
+*.sh

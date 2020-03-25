@@ -1,6 +1,6 @@
 {
   "points": ["1","2","3","5","8","13","20","40",":("],
-  "port": 8081,
+  "port": 8080,
   "words": [
     "aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige",
     "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown", "burlywood",
