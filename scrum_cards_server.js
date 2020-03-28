@@ -25,9 +25,10 @@ var express = require('express'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server),
     bucket  = [],
+    devteam  = [],
     config  = require('./settings.json'),
     argv    = require('yargs').argv,
-    port    = argv.port || config.port;
+    port    = process.env.PORT || config.port;
 
 app.use(express.static(__dirname + '/web'));
 server.listen(port);
@@ -67,6 +68,7 @@ io.sockets.on('connection',function(socket){
     if ( typeof(bucket[requestedGame]) === "undefined" ) {
       // This game is new, create the array in the bucket.
       bucket[requestedGame] = [];
+      devteam[requestedGame] = [];
     } else {
       // This game exists, check for duplicate names
       for ( client in bucket[requestedGame] ) {
@@ -92,15 +94,19 @@ io.sockets.on('connection',function(socket){
       sid: socket.id,
       nickname: requestedNick,
       game: requestedGame,
+      role: data.role,
       mode: parseInt( data.mode )
     };
 
     bucket[requestedGame].push(client);
+    if(data.role == 'dev') {
+      devteam[requestedGame].push(client);
+    }
 
     socket.join(requestedGame);
 
     socket.broadcast.in(requestedGame).emit('userSignedIn',
-      {'nickname' : client.nickname, 'sid' : client.sid, 'mode' : client.mode}
+      {'nickname' : client.nickname, 'sid' : client.sid, 'mode' : client.mode, role: client.role}
     );
 
     fn(true,{
@@ -108,7 +114,8 @@ io.sockets.on('connection',function(socket){
       'nickname' : requestedNick,
       'points' : config.points,
       'users' : bucket[requestedGame],
-      'game' : requestedGame
+      'game' : requestedGame,
+      'role': client.role
     });
   });
 
@@ -173,7 +180,7 @@ io.sockets.on('connection',function(socket){
     io.sockets.in(game).emit('reveal');
   });
 
-  socket.on('getPlayerCount',function(data, fn){
+  socket.on('getPlayerCount',function(data, fn) {
     /* Which game is being investigated? */
     var requestedGame = (typeof(data.game) === 'string' && data.game.length) ?
       data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
